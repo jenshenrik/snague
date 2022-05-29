@@ -24,8 +24,6 @@ public class Follow : MonoBehaviour
 
         var x = Mathf.Clamp(follow.position.x, leftBoundary, rightBoundary);
         var y = Mathf.Clamp(follow.position.y, bottomBoundary, topBoundary);
-        Debug.Log($"left bound {leftBoundary}, right bound {rightBoundary}");
-        Debug.Log($"top bound {topBoundary}, bottom bound {bottomBoundary}");
         this.transform.position = new Vector3(x, y, this.transform.position.z);
     }
 
