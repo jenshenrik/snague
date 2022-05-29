@@ -85,6 +85,7 @@ public class SnakeMovement : MonoBehaviour
     public void Grow()
     {
         var segment = Instantiate(segmentPrefab);
+        segment.GetComponent<SpriteRenderer>().sortingOrder = 5;
         segment.position = _segments[_segments.Count - 1].position;
         _segments.Add(segment);
     }
