@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private MapRenderer _mapRenderer;
 
     private int level;
+    private int health;
+    private int targetHealth = 3;
     private Map _map;
     private readonly Vector3 initialPosition = new Vector3(10.5f, 10.5f, 0f);
     private Follow _mainCameraFollow;
@@ -30,40 +32,83 @@ public class GameManager : MonoBehaviour
         // _map.GenerateRandomMap(35, 3, 50, 50);
         // _map.Process(1, 1);
         // _map = Map.GenerateBoxMap(20, 30);
-        _map = Map.GenerateBoxMap(60, 40);
-        _mapRenderer.DrawTilemap(_map);
+        ResetGame();
+    }
+
+    private void SetupMap()
+    {
+         _mapRenderer.DrawTilemap(_map);
         var wallTilemap = _mapRenderer.GetWallTilemap();
-        // Camera.main.transform.position = new Vector3(
-        //     _map.GetWidth() / 2,
-        //     _map.GetHeight() / 2,
-        //     Camera.main.transform.position.z
-        // );
         _mainCameraFollow.SetBounds(wallTilemap.localBounds.min, wallTilemap.localBounds.max);
-        
-        ResetGame();
-    }
 
-    public void EatFood()
-    {
-        _food.SetPosition(_map.GetRandomRoomTile());
-        _snake.Grow();
-    }
-
-    public void Collide()
-    {
-        _snake.ResetSnake();
-        ResetGame();
-    }
-
-    public void ResetGame()
-    {
-        level = 1;
-        _food.SetPosition(_map.GetRandomRoomTile());
         _snake.SetPosition(_map.GetRandomRoomTile());
         Camera.main.transform.position = new Vector3(
             _snake.transform.position.x,
             _snake.transform.position.y,
             Camera.main.transform.position.z
         );
+
+        _food.SetPosition(_map.GetRandomRoomTile());
+    }
+
+    public void EatFood()
+    {
+        health++;
+        if (health == targetHealth)
+        {
+            ProgressLevel();
+        }
+        else
+        {
+            _food.SetPosition(_map.GetRandomRoomTile());
+            _snake.Grow();
+        }
+    }
+
+    private void ProgressLevel()
+    {
+        _snake.ResetSnake();
+        level++;
+        health = 0;
+        if (level == 1)
+        {
+            _map = Map.GenerateBoxMap(30, 20);
+            targetHealth = 3;
+        }
+        else if (level == 2)
+        {
+            _map = Map.GenerateBoxMap(45, 30);
+            targetHealth = 5;
+        }
+        // else
+        // {
+        //     // do procgen shit
+        // }
+        SetupMap();
+        
+    }
+
+    public void Collide()
+    {
+        health--;
+        if (health == 0)
+        {
+            // game over
+            ResetGame();
+        }
+        else
+        {
+            _snake.ResetSnake();
+            _snake.Stop();
+            _snake.SetPosition(_map.GetRandomRoomTile());
+            _food.SetPosition(_map.GetRandomRoomTile());
+        }
+    }
+
+    private void ResetGame()
+    {
+        level = 0;
+        ProgressLevel();
+        SetupMap();
     }
 }

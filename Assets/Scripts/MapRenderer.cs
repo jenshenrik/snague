@@ -14,6 +14,9 @@ public class MapRenderer : MonoBehaviour
 
     public void DrawTilemap(Map map)
     {
+        tilemapWalls.DeleteCells(new Vector3Int(0, 0, 0), new Vector3Int(map.GetWidth(), map.GetHeight(), 0));
+        tilemapFloor.DeleteCells(new Vector3Int(0, 0, 0), new Vector3Int(map.GetWidth(), map.GetHeight(), 0));
+
         for (int x = 0; x < map.GetWidth(); x++)
         {
             for (int y = 0; y < map.GetHeight(); y++)

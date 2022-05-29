@@ -52,9 +52,10 @@ public class SnakeMovement : MonoBehaviour
         }
 
         // move head
-       _myRigidbody2D.position += new Vector2(
+       _myRigidbody2D.transform.position += new Vector3(
            Mathf.Round(_direction.x),
-           Mathf.Round(_direction.y)
+           Mathf.Round(_direction.y),
+           0
        );
     }
 
@@ -73,6 +74,7 @@ public class SnakeMovement : MonoBehaviour
     public void ResetSnake()
     {
         _direction = initialDirection;
+        Stop();
 
         for (int i = 1; i < _segments.Count; i++)
         {
@@ -90,8 +92,13 @@ public class SnakeMovement : MonoBehaviour
         _segments.Add(segment);
     }
 
+    public void Stop()
+    {
+        _direction = initialDirection;
+    }
+
     public void SetPosition(Coord tile)
     {
-        this._myRigidbody2D.position = new Vector3(tile.tileX + .5f, tile.tileY + .5f);
+        this._myRigidbody2D.transform.position = new Vector3(tile.tileX + .5f, tile.tileY + .5f, 0);
     }
 }
