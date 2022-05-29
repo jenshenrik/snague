@@ -40,6 +40,6 @@ public class Follow : MonoBehaviour
 
     private float GetHorizontalExtent()
     {
-        return Mathf.Round(_camera.aspect * GetVerticalExtent());
+        return _camera.aspect * GetVerticalExtent();
     }
 }
