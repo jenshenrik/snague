@@ -16,15 +16,12 @@ public class GameManager : MonoBehaviour
 
     [Header("Map")]
     [SerializeField]
-    private MapGenerator _mapGenerator;
-    [SerializeField]
     private MapRenderer _mapRenderer;
 
     private int _level;
     private int _health;
     private int _targetHealth = 3;
     private Map _map;
-    private readonly Vector3 initialPosition = new Vector3(10.5f, 10.5f, 0f);
     private Follow _mainCameraFollow;
 
     private void Awake()
@@ -90,8 +87,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _map = Map.GenerateRandomMap(60, 40, GetFillPercentage(_level), 3, 10, 10);
-            _targetHealth = 5;
+            _map = Map.GenerateRandomMap(45, 30, GetFillPercentage(_level), 3, 8, 10);
+            _targetHealth++;
         }
         _healthBar.SetHealth(_health);
         _healthBar.SetMaxHealth(_targetHealth);
@@ -101,14 +98,14 @@ public class GameManager : MonoBehaviour
 
     private int GetFillPercentage(int level)
     {
-        return 30 + (level % 5) * 2;
+        return 40 + level % 3;
     }
 
     public void Collide()
     {
         _health--;
         _healthBar.SetHealth(_health);
-        if (_health <= 0)
+        if (_health < 0)
         {
             // game over
             ResetGame();
