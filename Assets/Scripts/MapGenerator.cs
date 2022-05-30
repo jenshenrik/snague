@@ -219,18 +219,22 @@ public class Map
         return map;
     }
 
-    public void GenerateRandomMap(
+    public static Map GenerateRandomMap(
+        int width,
+        int height,
         int randomFillPercent, 
         int smoothingPasses, 
         int wallThresholdSize, 
         int roomThresholdSize)
     {
-        RandomFillMap(randomFillPercent);
+        var map = new Map(width, height);
+        map.RandomFillMap(randomFillPercent);
         for (int i = 0; i < smoothingPasses; i++)
         {
-            Smooth();
+            map.Smooth();
         }
-        Process(wallThresholdSize, roomThresholdSize);
+        map.Process(wallThresholdSize, roomThresholdSize);
+        return map;
     }
 
     public void Process(int wallThresholdSize, int roomThresholdSize)

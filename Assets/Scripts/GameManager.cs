@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     private Food _food;
     [SerializeField]
     private SnakeMovement _snake;
+    [SerializeField]
+    private HealthBar _healthBar;
 
     [Header("Map")]
     [SerializeField]
@@ -14,9 +16,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private MapRenderer _mapRenderer;
 
-    private int level;
-    private int health;
-    private int targetHealth = 3;
+    private int _level;
+    private int _health;
+    private int _targetHealth = 3;
     private Map _map;
     private readonly Vector3 initialPosition = new Vector3(10.5f, 10.5f, 0f);
     private Follow _mainCameraFollow;
@@ -28,10 +30,6 @@ public class GameManager : MonoBehaviour
 
     private void Start() 
     {
-        // _map = _mapGenerator.GenerateMap();
-        // _map.GenerateRandomMap(35, 3, 50, 50);
-        // _map.Process(1, 1);
-        // _map = Map.GenerateBoxMap(20, 30);
         ResetGame();
     }
 
@@ -53,8 +51,9 @@ public class GameManager : MonoBehaviour
 
     public void EatFood()
     {
-        health++;
-        if (health == targetHealth)
+        _health++;
+        _healthBar.SetHealth(_health);
+        if (_health == _targetHealth)
         {
             ProgressLevel();
         }
@@ -68,30 +67,39 @@ public class GameManager : MonoBehaviour
     private void ProgressLevel()
     {
         _snake.ResetSnake();
-        level++;
-        health = 0;
-        if (level == 1)
+        _level++;
+        _health = 0;
+        if (_level == 1)
         {
             _map = Map.GenerateBoxMap(30, 20);
-            targetHealth = 3;
+            _targetHealth = 3;
         }
-        else if (level == 2)
+        else if (_level == 2)
         {
             _map = Map.GenerateBoxMap(45, 30);
-            targetHealth = 5;
+            _targetHealth = 5;
         }
-        // else
-        // {
-        //     // do procgen shit
-        // }
+        else
+        {
+            _map = Map.GenerateRandomMap(60, 40, GetFillPercentage(_level), 3, 10, 10);
+            _targetHealth = 5;
+        }
+        _healthBar.SetHealth(_health);
+        _healthBar.SetMaxHealth(_targetHealth);
         SetupMap();
         
     }
 
+    private int GetFillPercentage(int level)
+    {
+        return 30 + (level % 5) * 2;
+    }
+
     public void Collide()
     {
-        health--;
-        if (health == 0)
+        _health--;
+        _healthBar.SetHealth(_health);
+        if (_health == 0)
         {
             // game over
             ResetGame();
@@ -107,7 +115,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetGame()
     {
-        level = 0;
+        _level = 0;
         ProgressLevel();
         SetupMap();
     }

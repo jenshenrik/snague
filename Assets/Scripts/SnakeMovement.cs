@@ -12,6 +12,8 @@ public class SnakeMovement : MonoBehaviour
     private Transform segmentPrefab;
     private List<Transform> _segments = new List<Transform>();
 
+    private bool hasInput;
+
     private void Awake()
     {
         _myRigidbody2D = GetComponent<Rigidbody2D>();
@@ -25,38 +27,62 @@ public class SnakeMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W) && _direction != Vector2.down)
+        // only detect direction change if no input was made since last move
+        if (!hasInput)
         {
-            _direction = Vector2.up;
-        }
-        else if (Input.GetKeyDown(KeyCode.S) && _direction != Vector2.up)
-        {
-            _direction = Vector2.down;
-        }
-        else if (Input.GetKeyDown(KeyCode.D) && _direction != Vector2.left)
-        {
-            _direction = Vector2.right;
-        }
-        else if (Input.GetKeyDown(KeyCode.A) && _direction != Vector2.right)
-        {
-            _direction = Vector2.left;
+            if (Input.GetKeyDown(KeyCode.W) && _direction != Vector2.down)
+            {
+                _direction = Vector2.up;
+                // register that input was made
+                hasInput = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.S) && _direction != Vector2.up)
+            {
+                _direction = Vector2.down;
+                // register that input was made
+                hasInput = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.D) && _direction != Vector2.left)
+            {
+                _direction = Vector2.right;
+                // register that input was made
+                hasInput = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.A) && _direction != Vector2.right)
+            {
+                _direction = Vector2.left;
+                // register that input was made
+                hasInput = true;
+            }
+            
         }
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
+    {
+        MoveSegments();
+        MoveHead();
+        // reset input so that new one can be entered
+        hasInput = false;
+    }
+
+    private void MoveHead()
+    {
+        _myRigidbody2D.transform.position += new Vector3(
+            Mathf.Round(_direction.x),
+            Mathf.Round(_direction.y),
+            0
+        );
+    }
+
+    private void MoveSegments()
     {
         // move tail segments by moving each to the position of 
         // its predecessor starting from the end of the tail
-        for (int i = _segments.Count - 1; i > 0; i--) {
+        for (int i = _segments.Count - 1; i > 0; i--)
+        {
             _segments[i].position = _segments[i - 1].position;
         }
-
-        // move head
-       _myRigidbody2D.transform.position += new Vector3(
-           Mathf.Round(_direction.x),
-           Mathf.Round(_direction.y),
-           0
-       );
     }
 
     private void OnTriggerEnter2D(Collider2D other) 
@@ -73,6 +99,7 @@ public class SnakeMovement : MonoBehaviour
 
     public void ResetSnake()
     {
+        hasInput = false;
         _direction = initialDirection;
         Stop();
 
