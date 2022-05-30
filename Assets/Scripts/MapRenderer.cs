@@ -7,15 +7,15 @@ public class MapRenderer : MonoBehaviour
     private Tilemap tilemapWalls;
     [SerializeField]
     private Tile wallTile;
-    [SerializeField]
-    private Tilemap tilemapFloor;
+    // [SerializeField]
+    // private Tilemap tilemapFloor;
     [SerializeField]
     private Tile floorTile;
 
     public void DrawTilemap(Map map)
     {
         tilemapWalls.DeleteCells(new Vector3Int(0, 0, 0), new Vector3Int(map.GetWidth(), map.GetHeight(), 0));
-        tilemapFloor.DeleteCells(new Vector3Int(0, 0, 0), new Vector3Int(map.GetWidth(), map.GetHeight(), 0));
+        // tilemapFloor.DeleteCells(new Vector3Int(0, 0, 0), new Vector3Int(map.GetWidth(), map.GetHeight(), 0));
 
         for (int x = 0; x < map.GetWidth(); x++)
         {
@@ -26,10 +26,10 @@ public class MapRenderer : MonoBehaviour
                 {
                     tilemapWalls.SetTile(position, wallTile);
                 }
-                else
-                {
-                    tilemapFloor.SetTile(position, floorTile);
-                }
+                // else
+                // {
+                //     tilemapFloor.SetTile(position, floorTile);
+                // }
             }
         }
     }

@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Food _food;
     [SerializeField]
+    private Sprite _foodRegularSprite;
+    [SerializeField]
+    private Sprite _foodLastSprite;
+    [SerializeField]
     private SnakeMovement _snake;
     [SerializeField]
     private HealthBar _healthBar;
@@ -47,6 +51,7 @@ public class GameManager : MonoBehaviour
         );
 
         _food.SetPosition(_map.GetRandomRoomTile());
+        _food.SetSprite(_foodRegularSprite);
     }
 
     public void EatFood()
@@ -60,6 +65,10 @@ public class GameManager : MonoBehaviour
         else
         {
             _food.SetPosition(_map.GetRandomRoomTile());
+            if (_health == _targetHealth - 1)
+            {
+                _food.SetSprite(_foodLastSprite);
+            }
             _snake.Grow();
         }
     }
@@ -99,7 +108,7 @@ public class GameManager : MonoBehaviour
     {
         _health--;
         _healthBar.SetHealth(_health);
-        if (_health == 0)
+        if (_health <= 0)
         {
             // game over
             ResetGame();
@@ -110,6 +119,7 @@ public class GameManager : MonoBehaviour
             _snake.Stop();
             _snake.SetPosition(_map.GetRandomRoomTile());
             _food.SetPosition(_map.GetRandomRoomTile());
+            _food.SetSprite(_foodRegularSprite);
         }
     }
 

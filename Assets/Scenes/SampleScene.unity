@@ -697,6 +697,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _food: {fileID: 8158727418182094612}
+  _foodRegularSprite: {fileID: 529226638225344014, guid: 5d30d863b339d62468ec24e5c62ec685, type: 3}
+  _foodLastSprite: {fileID: -3577502565125258297, guid: 5d30d863b339d62468ec24e5c62ec685, type: 3}
   _snake: {fileID: 1821625653}
   _healthBar: {fileID: 2134041958}
   _mapGenerator: {fileID: 369535435}
@@ -745,8 +747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemapWalls: {fileID: 1324880931}
-  wallTile: {fileID: 11400000, guid: b2ce9fd4cbef4a040ba76df6401fe88b, type: 2}
-  tilemapFloor: {fileID: 1487275495}
+  wallTile: {fileID: 11400000, guid: fe377f1e4acf20443ad9e46e0dd6095d, type: 2}
   floorTile: {fileID: 11400000, guid: c6e10cb5397d6af4192a78b687042ec4, type: 2}
 --- !u!4 &1487001696
 Transform:
@@ -957,7 +958,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -3577502565125258297, guid: 5d30d863b339d62468ec24e5c62ec685, type: 3}
+  m_Sprite: {fileID: 2646277870547864967, guid: 5d30d863b339d62468ec24e5c62ec685, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1224,7 +1225,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1043082194}
   m_HandleRect: {fileID: 0}
-  m_Direction: 1
+  m_Direction: 0
   m_MinValue: 0
   m_MaxValue: 4
   m_WholeNumbers: 1
@@ -1304,7 +1305,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 8334277787672111689, guid: 5d30d863b339d62468ec24e5c62ec685, type: 3}
+  m_Sprite: {fileID: 529226638225344014, guid: 5d30d863b339d62468ec24e5c62ec685, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1367,3 +1368,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9f29799898954458fb332f49e02ce8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 5933447538699137860}
